@@ -4,6 +4,7 @@ import no.emagnus.driving.CarGenerator;
 import no.emagnus.driving.TerrainGenerator;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class MinTest {
         terrainGenerator.generateTerrain(myWorld);
 
         CarGenerator carGenerator = new CarGenerator();
-        Body bodyA = carGenerator.generateCar(myWorld);
+        Body bodyA = carGenerator.generateCar(myWorld, new Vector2(0, 0));
 
         JFrame jFrame = new JFrame("Test ja");
         jFrame.setLayout(new BorderLayout());

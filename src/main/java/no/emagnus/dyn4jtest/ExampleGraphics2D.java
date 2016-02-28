@@ -34,11 +34,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import no.emagnus.driving.CarGenerator;
 import no.emagnus.driving.TerrainGenerator;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -70,6 +73,8 @@ public class ExampleGraphics2D extends JFrame {
     public static final double NANO_TO_BASE = 1.0e9;
 
     private GameObject car;
+
+    private List<GameObject> cars = new ArrayList<>();
 
     /**
      * Custom Body class to add drawing functionality.
@@ -197,36 +202,9 @@ public class ExampleGraphics2D extends JFrame {
         new TerrainGenerator().generateTerrain(world);
 
         // create the car
-        Rectangle boxShape = new Rectangle(2, 1);
-        car = new GameObject();
-        car.addFixture(new BodyFixture(boxShape));
-        car.setMass(MassType.NORMAL);
-        this.world.addBody(car);
-
-        Circle circleShape = new Circle(0.8);
-        GameObject wheel1 = new GameObject();
-        GameObject wheel2 = new GameObject();
-        BodyFixture backWheelFixture = new BodyFixture(circleShape);
-        backWheelFixture.setFriction(0.6);
-        wheel1.addFixture(backWheelFixture);
-        wheel2.addFixture(new BodyFixture(circleShape));
-        wheel1.setMass(MassType.NORMAL);
-        wheel2.setMass(MassType.NORMAL);
-
-        wheel1.translate(new Vector2(-1, -1));
-        wheel2.translate(new Vector2(1, -1));
-
-        world.addBody(wheel1);
-        world.addBody(wheel2);
-
-        WheelJoint wheelJoint1 = new WheelJoint(wheel1, car, new Vector2(-1, -1), new Vector2(0, 1));
-        wheelJoint1.setMotorSpeed(-12);
-        wheelJoint1.setMaximumMotorTorque(50);
-        wheelJoint1.setMotorEnabled(true);
-        world.addJoint(wheelJoint1);
-
-        WheelJoint wheelJoint2 = new WheelJoint(wheel2, car, new Vector2(1, -1), new Vector2(0, 1));
-        world.addJoint(wheelJoint2);
+        for (int i = 0; i < 10; i++) {
+            cars.add(new CarGenerator().generateCar(world, new Vector2(-5,0)));
+        }
     }
 
     /**
@@ -321,7 +299,13 @@ public class ExampleGraphics2D extends JFrame {
         g.fillRect(-400, -300, 800, 600);
 
         // lets move the view up some
-        g.translate(-1 * car.getWorldCenter().x * SCALE, 0.0);
+        double leaderX = -100;
+        for (GameObject car : cars) {
+            if (car.getWorldCenter().x > leaderX) {
+                leaderX = car.getWorldCenter().x;
+            }
+        }
+        g.translate(-1 * leaderX * SCALE, 0.0);
 
         // draw all the objects in the world
         for (int i = 0; i < this.world.getBodyCount(); i++) {

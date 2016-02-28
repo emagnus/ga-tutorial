@@ -1,68 +1,72 @@
 package no.emagnus.driving;
 
+import no.emagnus.dyn4jtest.ExampleGraphics2D;
+import org.dyn4j.collision.CategoryFilter;
+import org.dyn4j.collision.Filter;
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.dynamics.joint.Joint;
 import org.dyn4j.dynamics.joint.RevoluteJoint;
+import org.dyn4j.dynamics.joint.WheelJoint;
+import org.dyn4j.geometry.Circle;
+import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Rectangle;
+import org.dyn4j.geometry.Vector2;
 
 import static no.emagnus.utils.Utils.DEGTORAD;
 
 public class CarGenerator {
 
-    public Body generateCar(World world) {
-        /*BodyDef bodyDef = new BodyDef();
-        FixtureDef fixtureDef = new FixtureDef();
+    private static final long CATEGORY = 123456754321L;
+    private static long FILTER_CATEGORY = 1L;
 
-        bodyDef.type = BodyType.DYNAMIC;
-        fixtureDef.density = 1;
+    public ExampleGraphics2D.GameObject generateCar(World world, Vector2 startPoint) {
+        Filter filter = new CategoryFilter(CATEGORY, FILTER_CATEGORY<<1);
+        ExampleGraphics2D.GameObject car = new ExampleGraphics2D.GameObject();
+        Rectangle boxShape = new Rectangle(2, 0.5);
+        BodyFixture carBodyFixture = new BodyFixture(boxShape);
+        carBodyFixture.setFilter(filter);
+        carBodyFixture.setDensity(1 + Math.random() * 5);
+        carBodyFixture.setFriction(1);
+        car.addFixture(carBodyFixture);
+        car.setMass(MassType.NORMAL);
 
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(2, 2);
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(3);
+        car.translate(new Vector2(0, -1).add(startPoint));
+        world.addBody(car);
 
-        bodyDef.position = new Vec2(0, 10);
-        fixtureDef.shape = boxShape;
-        Body bodyA = world.createBody(bodyDef);
-        bodyA.createFixture(fixtureDef);
+        Circle circleShape = new Circle(0.8);
+        ExampleGraphics2D.GameObject wheel1 = new ExampleGraphics2D.GameObject();
+        ExampleGraphics2D.GameObject wheel2 = new ExampleGraphics2D.GameObject();
+        BodyFixture backWheelFixture = new BodyFixture(circleShape);
+        backWheelFixture.setFriction(0.6);
+        backWheelFixture.setFilter(filter);
+        wheel1.addFixture(backWheelFixture);
+        BodyFixture frontWheelFixture = new BodyFixture(circleShape);
+        frontWheelFixture.setFilter(filter);
+        frontWheelFixture.setFriction(0.6);
+        wheel2.addFixture(frontWheelFixture);
+        wheel1.setMass(MassType.NORMAL);
+        wheel2.setMass(MassType.NORMAL);
 
-        bodyDef.position = new Vec2(3, 5);
-        fixtureDef.shape = circleShape;
-        fixtureDef.friction = 0.6f;
-        Body bodyB = world.createBody(bodyDef);
-        bodyB.createFixture(fixtureDef);
+        wheel1.translate(new Vector2(-1, -1).add(startPoint));
+        wheel2.translate(new Vector2(1, -1).add(startPoint));
 
-        bodyDef.position = new Vec2(-3, 5);
-        Body bodyC = world.createBody(bodyDef);
-        bodyC.createFixture(fixtureDef);
+        world.addBody(wheel1);
+        world.addBody(wheel2);
 
-        RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-        revoluteJointDef.bodyA = bodyA;
-        revoluteJointDef.bodyB = bodyB;
-        revoluteJointDef.collideConnected = false;
-        revoluteJointDef.localAnchorA.set(4, 4);
-        revoluteJointDef.localAnchorB.set(0, 0);
-        revoluteJointDef.enableMotor = true;
-        revoluteJointDef.referenceAngle = -135 * DEGTORAD;
-        revoluteJointDef.maxMotorTorque = 300;
-        revoluteJointDef.motorSpeed = -6 * 360 * DEGTORAD;
+        WheelJoint wheelJoint1 = new WheelJoint(wheel1, car, new Vector2(-1, -1).add(startPoint), new Vector2(0, 1).add(startPoint));
+        wheelJoint1.setMotorSpeed(-12);
+        wheelJoint1.setMaximumMotorTorque(25);
+        wheelJoint1.setMotorEnabled(true);
+        world.addJoint(wheelJoint1);
 
-        Joint joint = (RevoluteJoint) world.createJoint(revoluteJointDef);
+        WheelJoint wheelJoint2 = new WheelJoint(wheel2, car, new Vector2(1, -1).add(startPoint), new Vector2(0, 1).add(startPoint));
+        wheelJoint2.setMotorSpeed(-12);
+        wheelJoint2.setMaximumMotorTorque(25);
+        wheelJoint2.setMotorEnabled(true);
+        world.addJoint(wheelJoint2);
 
-        RevoluteJointDef revoluteJointDef2 = new RevoluteJointDef();
-        revoluteJointDef2.bodyA = bodyA;
-        revoluteJointDef2.bodyB = bodyC;
-        revoluteJointDef2.collideConnected = false;
-        revoluteJointDef2.localAnchorA.set(4, -4);
-        revoluteJointDef2.localAnchorB.set(0, 0);
-        revoluteJointDef2.enableMotor = true;
-        revoluteJointDef.referenceAngle = 135 * DEGTORAD;
-        revoluteJointDef2.maxMotorTorque = 300;
-        revoluteJointDef2.motorSpeed = -6 * 360 * DEGTORAD;
-
-        RevoluteJoint joint2 = (RevoluteJoint) world.createJoint(revoluteJointDef2);
-
-        return bodyA;*/
-        return null;
+        return car;
     }
 }
