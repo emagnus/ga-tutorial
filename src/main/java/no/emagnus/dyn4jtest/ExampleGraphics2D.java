@@ -72,7 +72,7 @@ public class ExampleGraphics2D extends JFrame {
     /** The conversion factor from nano to base */
     public static final double NANO_TO_BASE = 1.0e9;
 
-    private GameObject car;
+    private static final int KILL_SIMULATION_THRESHOLD = 5;
 
     private List<GameObject> cars = new ArrayList<>();
 
@@ -138,6 +138,10 @@ public class ExampleGraphics2D extends JFrame {
 
     /** The time stamp for the last iteration */
     protected long last;
+
+    private long lastProgress;
+
+    private double maxProgress = -100;
 
     /**
      * Default constructor for the window
@@ -220,6 +224,9 @@ public class ExampleGraphics2D extends JFrame {
         // enable double buffering (the JFrame has to be
         // visible before this can be done)
         this.canvas.createBufferStrategy(2);
+
+        this.lastProgress = System.currentTimeMillis();
+
         // run a separate thread to do active rendering
         // because we don't want to do it on the EDT
         Thread thread = new Thread() {
@@ -279,6 +286,20 @@ public class ExampleGraphics2D extends JFrame {
 
         // get the current time
         long time = System.nanoTime();
+
+        for (GameObject car : cars) {
+            if (car.getWorldCenter().x > maxProgress) {
+                maxProgress = car.getWorldCenter().x;
+                this.lastProgress = System.currentTimeMillis();
+            }
+        }
+
+        if (System.currentTimeMillis() - lastProgress > 1000 * KILL_SIMULATION_THRESHOLD) {
+            System.out.println("No progress made in " + KILL_SIMULATION_THRESHOLD + " seconds, stopping simulation.");
+            stop();
+            System.exit(0);
+        }
+
         // get the elapsed time from the last iteration
         long diff = time - this.last;
         // set the last time
@@ -300,12 +321,14 @@ public class ExampleGraphics2D extends JFrame {
 
         // lets move the view up some
         double leaderX = -100;
+        double leaderY = -1;
         for (GameObject car : cars) {
             if (car.getWorldCenter().x > leaderX) {
                 leaderX = car.getWorldCenter().x;
+                leaderY = car.getWorldCenter().y;
             }
         }
-        g.translate(-1 * leaderX * SCALE, 0.0);
+        g.translate(-1 * leaderX * SCALE, -1 * leaderY * SCALE);
 
         // draw all the objects in the world
         for (int i = 0; i < this.world.getBodyCount(); i++) {
