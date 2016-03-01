@@ -1,29 +1,23 @@
 package no.emagnus.driving;
 
-import no.emagnus.dyn4jtest.ExampleGraphics2D;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.collision.Filter;
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.dynamics.joint.Joint;
-import org.dyn4j.dynamics.joint.RevoluteJoint;
 import org.dyn4j.dynamics.joint.WheelJoint;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 
-import static no.emagnus.utils.Utils.DEGTORAD;
-
 public class CarGenerator {
 
     private static final long CATEGORY = 123456754321L;
     private static long FILTER_CATEGORY = 1L;
 
-    public ExampleGraphics2D.GameObject generateCar(World world, Vector2 startPoint) {
+    public RenderableBody generateCar(World world, Vector2 startPoint) {
         Filter filter = new CategoryFilter(CATEGORY, FILTER_CATEGORY<<1);
-        ExampleGraphics2D.GameObject car = new ExampleGraphics2D.GameObject();
+        RenderableBody car = new RenderableBody();
         Rectangle boxShape = new Rectangle(2, 0.5);
         BodyFixture carBodyFixture = new BodyFixture(boxShape);
         carBodyFixture.setFilter(filter);
@@ -36,8 +30,8 @@ public class CarGenerator {
         world.addBody(car);
 
         Circle circleShape = new Circle(0.8);
-        ExampleGraphics2D.GameObject wheel1 = new ExampleGraphics2D.GameObject();
-        ExampleGraphics2D.GameObject wheel2 = new ExampleGraphics2D.GameObject();
+        RenderableBody wheel1 = new RenderableBody();
+        RenderableBody wheel2 = new RenderableBody();
         BodyFixture backWheelFixture = new BodyFixture(circleShape);
         backWheelFixture.setFriction(0.6);
         backWheelFixture.setFilter(filter);

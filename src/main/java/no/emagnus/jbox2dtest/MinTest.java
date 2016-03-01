@@ -15,7 +15,7 @@ public class MinTest {
 
         World myWorld = new World();
 
-        TerrainGenerator terrainGenerator = new TerrainGenerator();
+        TerrainGenerator terrainGenerator = new TerrainGenerator(32);
         terrainGenerator.generateTerrain(myWorld);
 
         CarGenerator carGenerator = new CarGenerator();

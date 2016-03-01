@@ -42,6 +42,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import no.emagnus.driving.CarGenerator;
+import no.emagnus.driving.RenderableBody;
 import no.emagnus.driving.TerrainGenerator;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -74,7 +75,7 @@ public class ExampleGraphics2D extends JFrame {
 
     private static final int KILL_SIMULATION_THRESHOLD = 5;
 
-    private List<GameObject> cars = new ArrayList<>();
+    private List<RenderableBody> cars = new ArrayList<>();
 
     /**
      * Custom Body class to add drawing functionality.
@@ -203,10 +204,10 @@ public class ExampleGraphics2D extends JFrame {
         // create all your bodies/joints
 
         // create the terrain
-        new TerrainGenerator().generateTerrain(world);
+        new TerrainGenerator(32).generateTerrain(world);
 
         // create the car
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 200; i++) {
             cars.add(new CarGenerator().generateCar(world, new Vector2(-5,0)));
         }
     }
@@ -287,7 +288,7 @@ public class ExampleGraphics2D extends JFrame {
         // get the current time
         long time = System.nanoTime();
 
-        for (GameObject car : cars) {
+        for (RenderableBody car : cars) {
             if (car.getWorldCenter().x > maxProgress) {
                 maxProgress = car.getWorldCenter().x;
                 this.lastProgress = System.currentTimeMillis();
@@ -322,7 +323,7 @@ public class ExampleGraphics2D extends JFrame {
         // lets move the view up some
         double leaderX = -100;
         double leaderY = -1;
-        for (GameObject car : cars) {
+        for (RenderableBody car : cars) {
             if (car.getWorldCenter().x > leaderX) {
                 leaderX = car.getWorldCenter().x;
                 leaderY = car.getWorldCenter().y;

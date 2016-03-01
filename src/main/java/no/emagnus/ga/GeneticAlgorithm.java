@@ -1,7 +1,9 @@
 package no.emagnus.ga;
 
-import no.emagnus.biggestnumber.BiggestNumberFitnessTester;
 import no.emagnus.biggestnumber.NumberIndividualGenerator;
+import no.emagnus.driving.CarFitnessEvaluator;
+import no.emagnus.utils.Statistics;
+import no.emagnus.utils.StatisticsVisualizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,20 +12,34 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 
-    private static final int POPULATION_SIZE = 50;
-    private static final int NUMBER_OF_GENERATIONS = 50;
+    private static final int POPULATION_SIZE = 20;
+    private static final int NUMBER_OF_GENERATIONS = 10;
 
-    private FitnessTester fitnessTester = new BiggestNumberFitnessTester();
-    private IndividualGenerator individualGenerator = new NumberIndividualGenerator();
     private Random random = new Random();
+    private boolean visualizeStats = false;
+
+    private FitnessEvaluator fitnessTester; //= new CarFitnessEvaluator();
+    private IndividualGenerator individualGenerator; // = new NumberIndividualGenerator();
+
+    public GeneticAlgorithm(FitnessEvaluator fitnessTester, IndividualGenerator individualGenerator, boolean visualizeStats) {
+        this.fitnessTester = fitnessTester;
+        this.individualGenerator = individualGenerator;
+        this.visualizeStats = visualizeStats;
+    }
 
     public void run() {
+        // statistics to visualize
+        Statistics statistics = new Statistics(NUMBER_OF_GENERATIONS);
+
         System.out.println("Initializing population ...");
         List<Individual> population = initPopulation(individualGenerator);
 
         System.out.println("Running " + NUMBER_OF_GENERATIONS + " generations ...");
         for (int gen = 0; gen < NUMBER_OF_GENERATIONS; gen++) {
             evaluateFitness(population);
+
+            // record stats about the population
+            statistics.recordMaxAndAvg(gen, population);
 
             List<Individual> newGen = new ArrayList<>();
             while (newGen.size() < POPULATION_SIZE) {
@@ -41,17 +57,10 @@ public class GeneticAlgorithm {
         }
         System.out.println("Done!");
 
-        double maxFitness = 0.0;
-        Individual theBest = population.get(0);
-        for (Individual specimen : population) {
-            double fitness = specimen.getFitness();
-            if (fitness > maxFitness) {
-                maxFitness = fitness;
-                theBest = specimen;
-            }
+        System.out.println(statistics);
+        if (visualizeStats) {
+            new StatisticsVisualizer().visualize(statistics);
         }
-
-        System.out.println("Winner: " + theBest + " with fitness " + maxFitness);
     }
 
     private List<Individual> initPopulation(IndividualGenerator individualGenerator) {
@@ -65,7 +74,9 @@ public class GeneticAlgorithm {
 
     private List<Individual> combine(Individual parent1, Individual parent2) {
         // TODO: COMBINE CODE HERE
-        return Arrays.asList(parent1, parent2);
+        Individual child1 = new Individual(parent1.getGenotype());
+        Individual child2 = new Individual(parent2.getGenotype());
+        return Arrays.asList(child1, child2);
     }
 
     private Individual selectIndividual(List<Individual> population) {
@@ -77,9 +88,7 @@ public class GeneticAlgorithm {
 
     private void evaluateFitness(List<Individual> population) {
         // TODO: FITNESS EVALUATION HERE
-        for (Individual individual : population) {
-            individual.setFitness(fitnessTester.evaluateFitness(individual.getGenotype()));
-        }
+        fitnessTester.evaluateFitness(population);
     }
 
     private void mutate(List<Individual> individuals) {

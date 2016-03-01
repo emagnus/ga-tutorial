@@ -1,10 +1,13 @@
 package no.emagnus.biggestnumber;
 
-import no.emagnus.ga.FitnessTester;
+import no.emagnus.ga.FitnessEvaluator;
+import no.emagnus.ga.Individual;
 
-public class BiggestNumberFitnessTester implements FitnessTester<String> {
+import java.util.Collection;
 
-    public double evaluateFitness(String individual) {
-        return Integer.parseInt(individual, 2);
+public class BiggestNumberFitnessTester implements FitnessEvaluator<String> {
+
+    @Override
+    public void evaluateFitness(Collection<Individual<String>> individual) {
     }
 }
