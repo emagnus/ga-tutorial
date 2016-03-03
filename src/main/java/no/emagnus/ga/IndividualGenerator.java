@@ -1,6 +1,6 @@
 package no.emagnus.ga;
 
-public interface IndividualGenerator<T> {
+public interface IndividualGenerator {
 
-    Individual<T> generateSpecimen();
+    Individual generateSpecimen(int size);
 }

@@ -1,9 +1,7 @@
 package no.emagnus.ga;
 
-import no.emagnus.biggestnumber.NumberIndividualGenerator;
-import no.emagnus.driving.CarFitnessEvaluator;
-import no.emagnus.utils.Statistics;
-import no.emagnus.utils.StatisticsVisualizer;
+import no.emagnus.statistics.Statistics;
+import no.emagnus.statistics.StatisticsVisualizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,14 +10,14 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 
-    private static final int POPULATION_SIZE = 20;
+    private static final int POPULATION_SIZE = 1;
     private static final int NUMBER_OF_GENERATIONS = 10;
 
     private Random random = new Random();
     private boolean visualizeStats = false;
 
-    private FitnessEvaluator fitnessTester; //= new CarFitnessEvaluator();
-    private IndividualGenerator individualGenerator; // = new NumberIndividualGenerator();
+    private FitnessEvaluator fitnessTester;
+    private IndividualGenerator individualGenerator;
 
     public GeneticAlgorithm(FitnessEvaluator fitnessTester, IndividualGenerator individualGenerator, boolean visualizeStats) {
         this.fitnessTester = fitnessTester;
@@ -57,16 +55,17 @@ public class GeneticAlgorithm {
         }
         System.out.println("Done!");
 
-        System.out.println(statistics);
         if (visualizeStats) {
             new StatisticsVisualizer().visualize(statistics);
+        } else {
+            System.out.println(statistics);
         }
     }
 
     private List<Individual> initPopulation(IndividualGenerator individualGenerator) {
         List<Individual> population = new ArrayList<>();
         for (int i = 0; i < POPULATION_SIZE; i++) {
-            population.add(individualGenerator.generateSpecimen());
+            population.add(individualGenerator.generateSpecimen(20));
         }
 
         return population;

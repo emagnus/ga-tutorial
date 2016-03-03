@@ -42,16 +42,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import no.emagnus.driving.CarGenerator;
-import no.emagnus.driving.RenderableBody;
 import no.emagnus.driving.TerrainGenerator;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.dynamics.joint.WheelJoint;
-import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
-import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 
 /**

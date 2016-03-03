@@ -1,5 +1,6 @@
 package no.emagnus.driving;
 
+import no.emagnus.dyn4jtest.RenderableBody;
 import no.emagnus.ga.FitnessEvaluator;
 import no.emagnus.ga.Individual;
 import org.dyn4j.dynamics.Body;
@@ -25,7 +26,7 @@ public class CarFitnessEvaluator implements FitnessEvaluator<String> {
 
     private World world = new World();
 
-    private static final int KILL_SIM_THRESHOLD = 5;
+    private static final int KILL_SIM_THRESHOLD = 2;
     private static final double TIME_STEP = 1.0 / 30.0;
     private boolean visualize;
 
@@ -37,7 +38,7 @@ public class CarFitnessEvaluator implements FitnessEvaluator<String> {
     }
 
     @Override
-    public void evaluateFitness(Collection<Individual<String>> population) {
+    public void evaluateFitness(Collection<Individual> population) {
         initializeSimulation(43);
 
         Map<Individual, RenderableBody> cars = generateCars(population);
@@ -52,8 +53,8 @@ public class CarFitnessEvaluator implements FitnessEvaluator<String> {
         cleanUpSimulation();
     }
 
-    private void assignFitnessToPopulation(Collection<Individual<String>> population, Map<Individual, RenderableBody> cars) {
-        for (Individual<String> individual : population) {
+    private void assignFitnessToPopulation(Collection<Individual> population, Map<Individual, RenderableBody> cars) {
+        for (Individual individual : population) {
             RenderableBody car = cars.get(individual);
             double fitness = car.getWorldCenter().x;
             individual.setFitness(fitness);
@@ -65,7 +66,7 @@ public class CarFitnessEvaluator implements FitnessEvaluator<String> {
         new TerrainGenerator(seed).generateTerrain(world);
     }
 
-    private Map<Individual, RenderableBody> generateCars(Collection<Individual<String>> population) {
+    private Map<Individual, RenderableBody> generateCars(Collection<Individual> population) {
         Map<Individual, RenderableBody> cars = new HashMap<>();
         for (Individual individual : population) {
             cars.put(individual, new CarGenerator().generateCar(world, new Vector2(-5,0)));

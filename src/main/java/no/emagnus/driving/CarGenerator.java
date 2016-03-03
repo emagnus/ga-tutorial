@@ -1,5 +1,6 @@
 package no.emagnus.driving;
 
+import no.emagnus.dyn4jtest.RenderableBody;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.collision.Filter;
 import org.dyn4j.dynamics.BodyFixture;

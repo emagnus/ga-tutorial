@@ -1,5 +1,6 @@
 package no.emagnus.driving;
 
+import no.emagnus.dyn4jtest.RenderableBody;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.MassType;

@@ -6,7 +6,6 @@ import no.emagnus.tsp.data.TspData;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +31,7 @@ public class TspFitnessEvaluator implements FitnessEvaluator<String> {
     }
 
     @Override
-    public void evaluateFitness(Collection<Individual<String>> population) {
+    public void evaluateFitness(Collection<Individual> population) {
         List<TspDataPoint> route = TspData.getSmallDataset();
 
         Map<Individual, List<TspDataPoint>> routes = new HashMap<>();
@@ -52,8 +51,8 @@ public class TspFitnessEvaluator implements FitnessEvaluator<String> {
         }
     }
 
-    private void assignFitnessToRoutes(Collection<Individual<String>> population, Map<Individual, List<TspDataPoint>> routes) {
-        for (Individual<String> individual : population) {
+    private void assignFitnessToRoutes(Collection<Individual> population, Map<Individual, List<TspDataPoint>> routes) {
+        for (Individual individual : population) {
             List<TspDataPoint> route = routes.get(individual);
             double distance = calculateRouteDistance(route);
             individual.setFitness(-distance); // the algorithm is maximizing fitness
@@ -114,7 +113,8 @@ public class TspFitnessEvaluator implements FitnessEvaluator<String> {
             g.fillRect((int) point.getX() - 2, (int) point.getY() - 2, 4, 4);
         }
 
-        /*g.setColor(Color.BLUE);
+        /*
+        g.setColor(Color.BLUE);
         Point2D prevPoint = route.get(0);
         for (int i = 1; i < route.size(); i++) {
             Point2D currentPoint = route.get(i);
@@ -176,6 +176,6 @@ public class TspFitnessEvaluator implements FitnessEvaluator<String> {
     }
 
     public static void main(String[] args) {
-        new TspFitnessEvaluator(true).evaluateFitness(Collections.<Individual<String>>emptyList());
+        new TspFitnessEvaluator(true).evaluateFitness(Collections.<Individual>emptyList());
     }
 }

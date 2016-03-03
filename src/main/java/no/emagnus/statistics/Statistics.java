@@ -1,4 +1,4 @@
-package no.emagnus.utils;
+package no.emagnus.statistics;
 
 import no.emagnus.ga.Individual;
 

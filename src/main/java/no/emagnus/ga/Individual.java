@@ -1,16 +1,16 @@
 package no.emagnus.ga;
 
-public class Individual<T> {
+public class Individual {
 
     private static long individualId = 0;
 
     private long id = individualId++;
 
-    private T genotype;
+    private String genotype;
 
     private double fitness;
 
-    public Individual(T genotype) {
+    public Individual(String genotype) {
         this.genotype = genotype;
     }
 
@@ -22,7 +22,7 @@ public class Individual<T> {
         return fitness;
     }
 
-    public T getGenotype() {
+    public String getGenotype() {
         return genotype;
     }
 
@@ -36,7 +36,7 @@ public class Individual<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Individual<?> that = (Individual<?>) o;
+        Individual that = (Individual) o;
 
         return id == that.id;
 

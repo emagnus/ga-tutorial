@@ -1,4 +1,4 @@
-package no.emagnus.utils;
+package no.emagnus.statistics;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;

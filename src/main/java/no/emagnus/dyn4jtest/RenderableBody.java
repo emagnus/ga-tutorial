@@ -1,4 +1,4 @@
-package no.emagnus.driving;
+package no.emagnus.dyn4jtest;
 
 import no.emagnus.dyn4jtest.Graphics2DRenderer;
 import org.dyn4j.dynamics.Body;
