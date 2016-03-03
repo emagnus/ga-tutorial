@@ -1,6 +1,5 @@
-package no.emagnus.dyn4jtest;
+package no.emagnus.rendering;
 
-import no.emagnus.dyn4jtest.Graphics2DRenderer;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;

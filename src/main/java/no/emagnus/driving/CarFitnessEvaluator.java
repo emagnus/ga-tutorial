@@ -1,6 +1,6 @@
 package no.emagnus.driving;
 
-import no.emagnus.dyn4jtest.RenderableBody;
+import no.emagnus.rendering.RenderableBody;
 import no.emagnus.ga.FitnessEvaluator;
 import no.emagnus.ga.Individual;
 import org.dyn4j.dynamics.Body;
