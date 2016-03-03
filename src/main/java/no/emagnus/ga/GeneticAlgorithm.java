@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 
-    private static final int POPULATION_SIZE = 4;
+    private static final int POPULATION_SIZE = 1;
     private static final int NUMBER_OF_GENERATIONS = 10;
 
     private Random random = new Random();

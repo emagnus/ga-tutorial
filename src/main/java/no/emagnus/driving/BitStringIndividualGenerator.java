@@ -11,16 +11,11 @@ public class BitStringIndividualGenerator implements IndividualGenerator {
         Random random = new Random();
 
         // TODO Implement a proper generator
-        //String genotype1 = "100111111111111111111111111";
-        //String genotype2 = "001111111111111111111111100";
-        //String theGenotype = random.nextBoolean() ? genotype1 : genotype2;
-
-        //return new Individual(theGenotype);
-
         StringBuilder sb = new StringBuilder(size);
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < 42; i++) {
             sb.append(random.nextInt(2));
         }
+        //sb.append("111011100110011");
 
         return new Individual(sb.toString());
     }

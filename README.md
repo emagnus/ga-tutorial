@@ -24,7 +24,7 @@ Let's get started!
 The objective is to find the optimal shape, size and weight of a car driving through difficult terrain. We define the optimal combination to be the one that lets the car travel the furthest before getting stuck or running out of time.
 
 ### Checking that everything is running OK
-1. Run GeneticAlgorithmStarter's main method. By default it runs the simulation with visualization enabled. You should see a car being dropped into a 2D world and driving off to the right.
+1. Run CarGeneticAlgorithmStarter's main method. By default it runs the simulation with visualization enabled. You should see a car being dropped into a 2D world and driving off to the right.
 2. Change the POPULATION_SIZE field to 10 or 20, and run GeneticAlgorithmStarter again. Mayhem should ensue.
 
 ### The initial population
