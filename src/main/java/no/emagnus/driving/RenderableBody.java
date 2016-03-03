@@ -12,12 +12,8 @@ public class RenderableBody extends Body {
 
     protected Color color;
 
-    public RenderableBody() {
-        // randomly generate the color
-        this.color = new Color(
-                (float)Math.random() * 0.5f + 0.5f,
-                (float)Math.random() * 0.5f + 0.5f,
-                (float)Math.random() * 0.5f + 0.5f);
+    public RenderableBody(Color color) {
+        this.color = color;
     }
 
     public void render(Graphics2D g, double scale) {
@@ -41,5 +37,9 @@ public class RenderableBody extends Body {
 
         // set the original transform
         g.setTransform(ot);
+    }
+
+    public double getDistanceTravelled() {
+        return getWorldCenter().x;
     }
 }

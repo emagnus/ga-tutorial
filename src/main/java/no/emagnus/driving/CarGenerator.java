@@ -10,14 +10,21 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 
+import java.awt.*;
+
 public class CarGenerator {
 
     private static final long CATEGORY = 123456754321L;
     private static long FILTER_CATEGORY = 1L;
 
     public RenderableBody generateCar(World world, Vector2 startPoint) {
+        Color color = new Color(
+                (float)Math.random() * 0.5f + 0.5f,
+                (float)Math.random() * 0.5f + 0.5f,
+                (float)Math.random() * 0.5f + 0.5f);
+
         Filter filter = new CategoryFilter(CATEGORY, FILTER_CATEGORY<<1);
-        RenderableBody car = new RenderableBody();
+        RenderableBody car = new RenderableBody(color);
         Rectangle boxShape = new Rectangle(2, 0.5);
         BodyFixture carBodyFixture = new BodyFixture(boxShape);
         carBodyFixture.setFilter(filter);
@@ -30,8 +37,8 @@ public class CarGenerator {
         world.addBody(car);
 
         Circle circleShape = new Circle(0.8);
-        RenderableBody wheel1 = new RenderableBody();
-        RenderableBody wheel2 = new RenderableBody();
+        RenderableBody wheel1 = new RenderableBody(color);
+        RenderableBody wheel2 = new RenderableBody(color);
         BodyFixture backWheelFixture = new BodyFixture(circleShape);
         backWheelFixture.setFriction(0.6);
         backWheelFixture.setFilter(filter);
