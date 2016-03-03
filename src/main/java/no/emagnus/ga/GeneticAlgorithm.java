@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 
-    private static final int POPULATION_SIZE = 1;
+    private static final int POPULATION_SIZE = 4;
     private static final int NUMBER_OF_GENERATIONS = 10;
 
     private Random random = new Random();
@@ -65,7 +65,7 @@ public class GeneticAlgorithm {
     private List<Individual> initPopulation(IndividualGenerator individualGenerator) {
         List<Individual> population = new ArrayList<>();
         for (int i = 0; i < POPULATION_SIZE; i++) {
-            population.add(individualGenerator.generateSpecimen(20));
+            population.add(individualGenerator.generateSpecimen(11));
         }
 
         return population;

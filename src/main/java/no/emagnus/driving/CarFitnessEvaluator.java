@@ -7,15 +7,19 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class CarFitnessEvaluator implements FitnessEvaluator<String> {
 
@@ -41,23 +45,22 @@ public class CarFitnessEvaluator implements FitnessEvaluator<String> {
     public void evaluateFitness(Collection<Individual> population) {
         initializeSimulation(43);
 
-        Map<Individual, RenderableBody> cars = generateCars(population);
+        List<RenderableBody> cars = generateCars(population);
 
         // running simulation of cars driving
-        runSimulation(cars.values());
+        runSimulation(cars);
 
         // TODO assign fitness to the individuals according to their performance
-        assignFitnessToPopulation(population, cars);
+        assignFitnessToPopulation(cars);
 
         // cleaning up after running the simulation
         cleanUpSimulation();
     }
 
-    private void assignFitnessToPopulation(Collection<Individual> population, Map<Individual, RenderableBody> cars) {
-        for (Individual individual : population) {
-            RenderableBody car = cars.get(individual);
-            double fitness = car.getWorldCenter().x;
-            individual.setFitness(fitness);
+    private void assignFitnessToPopulation(List<RenderableBody> cars) {
+        for (RenderableBody car : cars) {
+            double fitness = car.getDistanceTravelled();
+            car.getIndividual().setFitness(fitness);
         }
     }
 
@@ -66,10 +69,10 @@ public class CarFitnessEvaluator implements FitnessEvaluator<String> {
         new TerrainGenerator(seed).generateTerrain(world);
     }
 
-    private Map<Individual, RenderableBody> generateCars(Collection<Individual> population) {
-        Map<Individual, RenderableBody> cars = new HashMap<>();
+    private List<RenderableBody> generateCars(Collection<Individual> population) {
+        List<RenderableBody> cars = new ArrayList<>();
         for (Individual individual : population) {
-            cars.put(individual, new CarGenerator().generateCar(world, new Vector2(-5,0)));
+            cars.add(new CarGenerator().generateCar(individual, world, new Vector2(-5,0)));
         }
 
         return cars;

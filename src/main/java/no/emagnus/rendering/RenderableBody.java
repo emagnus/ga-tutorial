@@ -1,5 +1,6 @@
 package no.emagnus.rendering;
 
+import no.emagnus.ga.Individual;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
@@ -40,5 +41,10 @@ public class RenderableBody extends Body {
 
     public double getDistanceTravelled() {
         return getWorldCenter().x;
+    }
+
+    public Individual getIndividual() {
+        Object userData = getUserData();
+        return (Individual) userData;
     }
 }

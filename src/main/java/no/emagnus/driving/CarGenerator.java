@@ -1,5 +1,6 @@
 package no.emagnus.driving;
 
+import no.emagnus.ga.Individual;
 import no.emagnus.rendering.RenderableBody;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.collision.Filter;
@@ -18,18 +19,23 @@ public class CarGenerator {
     private static final long CATEGORY = 123456754321L;
     private static long FILTER_CATEGORY = 1L;
 
-    public RenderableBody generateCar(World world, Vector2 startPoint) {
+    public RenderableBody generateCar(Individual individual, World world, Vector2 startPoint) {
         Color color = new Color(
                 (float)Math.random() * 0.5f + 0.5f,
                 (float)Math.random() * 0.5f + 0.5f,
                 (float)Math.random() * 0.5f + 0.5f);
 
-        Filter filter = new CategoryFilter(CATEGORY, FILTER_CATEGORY<<1);
+        Filter filter = new CategoryFilter(CATEGORY, FILTER_CATEGORY << 1);
+
+        CarBlueprint blueprint = new CarBlueprint(individual.getGenotype());
+
         RenderableBody car = new RenderableBody(color);
+        car.setUserData(individual);
         Rectangle boxShape = new Rectangle(2, 0.5);
         BodyFixture carBodyFixture = new BodyFixture(boxShape);
         carBodyFixture.setFilter(filter);
-        carBodyFixture.setDensity(1 + Math.random() * 5);
+        //carBodyFixture.setDensity(1 + Math.random() * 5);
+        carBodyFixture.setDensity(blueprint.bodyDensity);
         carBodyFixture.setFriction(1);
         car.addFixture(carBodyFixture);
         car.setMass(MassType.NORMAL);
@@ -37,14 +43,15 @@ public class CarGenerator {
         car.translate(new Vector2(0, -1).add(startPoint));
         world.addBody(car);
 
-        Circle circleShape = new Circle(0.8);
+        Circle backWheelShape = new Circle(blueprint.backWheelRadius);
+        Circle frontWheelShape = new Circle(blueprint.frontWheelRadius);
         RenderableBody wheel1 = new RenderableBody(color);
         RenderableBody wheel2 = new RenderableBody(color);
-        BodyFixture backWheelFixture = new BodyFixture(circleShape);
+        BodyFixture backWheelFixture = new BodyFixture(backWheelShape);
         backWheelFixture.setFriction(0.6);
         backWheelFixture.setFilter(filter);
         wheel1.addFixture(backWheelFixture);
-        BodyFixture frontWheelFixture = new BodyFixture(circleShape);
+        BodyFixture frontWheelFixture = new BodyFixture(frontWheelShape);
         frontWheelFixture.setFilter(filter);
         frontWheelFixture.setFriction(0.6);
         wheel2.addFixture(frontWheelFixture);
@@ -70,5 +77,17 @@ public class CarGenerator {
         world.addJoint(wheelJoint2);
 
         return car;
+    }
+
+    private class CarBlueprint {
+        private double backWheelRadius;
+        private double frontWheelRadius;
+        private double bodyDensity;
+
+        public CarBlueprint(String genotype) {
+            backWheelRadius = 0.4 + 0.05 * Integer.parseInt(genotype.substring(0, 3), 2);
+            frontWheelRadius = 0.4 + 0.05 * Integer.parseInt(genotype.substring(3, 6), 2);
+            bodyDensity = 0.5 + 0.05 * Integer.parseInt(genotype.substring(6, 10), 2);
+        }
     }
 }
