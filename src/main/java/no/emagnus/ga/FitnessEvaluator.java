@@ -2,7 +2,7 @@ package no.emagnus.ga;
 
 import java.util.Collection;
 
-public interface FitnessEvaluator<T> {
+public interface FitnessEvaluator {
 
     void evaluateFitness(Collection<Individual> population);
 }

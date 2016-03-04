@@ -84,6 +84,45 @@ Remember that you can disable the visualization of the car simulation to make th
 
 ## Problem 2: Finding the shortest route visiting a given set of cities
 
+On to a more real world problem. The travelling salesman problem is a classic: 
+
+_Given a set of cities and the distance between each pair of cities, find the shortest possible route that visits them all once and returns to the origin city._
+
+### Checking that everything is running OK
+1. Run TspGeneticAlgorithmStarter's main method. By default it runs the simulation with visualization enabled. You should see a plot where the cities are black dots and an example route is visualized in blue.
+
+### The initial population
+We want the genotype to encode a valid route. The bit strings used in Problem 1 are unsuitable. Instead we can label the N cities using numbers 1..N and define a route as a permutation of that sequence. 
+
+1. The TspIndividualGenerator class is lacking in functionality. Implement it so that random, valid routes are generated. 
+
+### The fitness function
+The objective is to find the shortest route, so we want our fitness function to reflect that. Since we want to minimize the distance, we have to make a choice:
+* If we want to maximize fitness (as in the previous problem), we need to make sure that a shorter distance equals a higher fitness. This can be done by using the inverse of the distance, or just negating the distance.
+* If not, rewrite the selection code so that it favors the individuals with the lowest fitness. If you don't do this, the genetic algorithm will end up trying to maximize the total distance, aka finding the worst route :)
+
+Time to break out the old high school maths. Each city is represented as a point (x,y) in a 2D coordinate system. The distance between them is the euclidean distance. Given a route 1-3-4-2-1, we want to sum up the distances between cities 1-3, 3-4, 4-2 and 2-1 to find the total.
+
+1. Implement it!!
+
+### Selection
+Optional! The selection code you wrote during Problem 1 should still work.
+
+### Crossover
+Now here comes the tricky bit. We can't use the crossover code from Problem 1, because the offspring produced is not guaranteed to encode valid solutions.
+
+1. Implement it!!
+
+### Mutation
+
+1. Implement it!!
+
+### Elitism
+Should still work :)
+
+### Play with it
+Check out the larger datasets!!
+
 
 
 Created by Magnus Westergaard.

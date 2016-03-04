@@ -10,37 +10,30 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 
-    private static final int POPULATION_SIZE = 1;
-    private static final int NUMBER_OF_GENERATIONS = 10;
+    private final RunConfig config;
 
     private Random random = new Random();
-    private boolean visualizeStats = false;
 
-    private FitnessEvaluator fitnessTester;
-    private IndividualGenerator individualGenerator;
-
-    public GeneticAlgorithm(FitnessEvaluator fitnessTester, IndividualGenerator individualGenerator, boolean visualizeStats) {
-        this.fitnessTester = fitnessTester;
-        this.individualGenerator = individualGenerator;
-        this.visualizeStats = visualizeStats;
+    public GeneticAlgorithm(RunConfig config) {
+        this.config = config;
     }
 
     public void run() {
         // statistics to visualize
-        Statistics statistics = new Statistics(NUMBER_OF_GENERATIONS);
+        Statistics statistics = new Statistics(config.NUMBER_OF_GENERATIONS);
 
         System.out.println("Initializing population ...");
-        List<Individual> population = initPopulation(individualGenerator);
+        List<Individual> population = initPopulation(config.individualGenerator);
 
-        System.out.println("Running " + NUMBER_OF_GENERATIONS + " generations ...");
-        for (int gen = 0; gen < NUMBER_OF_GENERATIONS; gen++) {
+        System.out.println("Running " + config.NUMBER_OF_GENERATIONS + " generations ...");
+        for (int gen = 0; gen < config.NUMBER_OF_GENERATIONS; gen++) {
             evaluateFitness(population);
 
             // record stats about the population
             statistics.recordMaxAndAvg(gen, population);
 
             List<Individual> newGen = new ArrayList<>();
-            while (newGen.size() < POPULATION_SIZE) {
+            while (newGen.size() < config.POPULATION_SIZE) {
                 Individual parent1 = selectIndividual(population);
                 Individual parent2 = selectIndividual(population);
                 List<Individual> children = combine(parent1, parent2);
@@ -55,7 +48,7 @@ public class GeneticAlgorithm {
         }
         System.out.println("Done!");
 
-        if (visualizeStats) {
+        if (config.visualizeStats) {
             new StatisticsVisualizer().visualize(statistics);
         } else {
             System.out.println(statistics);
@@ -64,8 +57,8 @@ public class GeneticAlgorithm {
 
     private List<Individual> initPopulation(IndividualGenerator individualGenerator) {
         List<Individual> population = new ArrayList<>();
-        for (int i = 0; i < POPULATION_SIZE; i++) {
-            population.add(individualGenerator.generateSpecimen(11));
+        for (int i = 0; i < config.POPULATION_SIZE; i++) {
+            population.add(individualGenerator.generateIndividual());
         }
 
         return population;
@@ -87,7 +80,7 @@ public class GeneticAlgorithm {
 
     private void evaluateFitness(List<Individual> population) {
         // TODO: FITNESS EVALUATION HERE
-        fitnessTester.evaluateFitness(population);
+        config.fitnessEvaluator.evaluateFitness(population);
     }
 
     private void mutate(List<Individual> individuals) {

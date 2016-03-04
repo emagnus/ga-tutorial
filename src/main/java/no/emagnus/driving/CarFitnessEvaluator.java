@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CarFitnessEvaluator implements FitnessEvaluator<String> {
+public class CarFitnessEvaluator implements FitnessEvaluator {
 
     private JFrame jFrame;
     private Canvas canvas;
