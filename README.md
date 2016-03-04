@@ -77,7 +77,7 @@ The objective of the genetic algorithm is to find the most optimal solution to a
 
 To remedy this, we can make sure that the fittest individual(s) always make it to the next generation, unmodified. This ensures that we always keep the best car _so far_, and that the maximum fitness will never decrease from one generation to the next.
 
-1. Implement elitism in the GeneticAlgorithm class.
+1. Implement elitism in the GeneticAlgorithm class. Use the ELITISM parameter to determine how many of the fittest individuals should be copied directly to the new generation.
 2. Run the CarGeneticAlgorithmStarter. Did the elitism have any effect on the fitness over time?
 
 ### Play with it
@@ -96,38 +96,38 @@ _Given a set of cities and the distance between each pair of cities, find the sh
 1. Run TspGeneticAlgorithmStarter's main method. By default it runs the simulation with visualization enabled. You should see a plot where the cities are black dots and an example route is visualized in blue.
 
 ### The initial population
-We want the genotype to encode a valid route. The bit strings used in Problem 1 are unsuitable. Instead we can label the N cities using numbers 1..N and define a route as a permutation of that sequence. 
+We want the genotype to encode a valid route. The bit strings used in Problem 1 are unsuitable. Instead we can label the N cities using numbers 1..N (or rather, 0..N-1 in a 0-indexed world) and define a route as a permutation of that sequence. 
 
-1. The TspIndividualGenerator class is lacking in functionality. Implement it so that random, valid routes are generated. 
+1. The TspIndividualGenerator class is lacking in functionality. Implement it so that random, valid genotypes are generated.
 
 ### The fitness function
-The objective is to find the shortest route, so we want our fitness function to reflect that. Using the total distance of a route as the fitness wouldn't work, as the genetic algorithm would end up maximizing the total distance. So we need to come up with a fitness function that is maximized when the total distance is minimized. Exactly how we do that is up to you. 
+The objective is to find the shortest route, so we want our fitness function to reflect that. Using the total distance of a route as the fitness value directly wouldn't work, as the genetic algorithm would end up maximizing the total distance. So we need to come up with a fitness function that is maximized when the total distance is minimized. Exactly how we do that is up to you. 
 
-OK, time to break out the old trigonometry. Each city is represented as a point (x,y) in a 2D coordinate system. The distance between them is the euclidean distance. Given a route 1-3-4-2-1, we want to sum up the distances between cities 1-3, 3-4, 4-2 and 2-1 to find the total.
+OK, time to break out the old trigonometry. Each city is represented as a point (x,y) in a 2D coordinate system. We define the distance between two cities as the eucledian distance between their two points. Given a route 1-3-4-2-1, we want to sum up the distances between cities 1-3, 3-4, 4-2 and 2-1 to find the total.
 
-1. The TspFitnessEvaluator class is missing some code. You need to calculate the total distance of a route, and then assign a fitness value to the individuals based on that total distance.
+1. The TspFitnessEvaluator class is missing some code. You need to calculate the total distance of a route, and then assign a fitness value to the individual based on that total distance.
 2. Run TspGeneticAlgorithmStarter again, and observe the statistics at the end.
 
 ### Selection
-Optional! The selection code you wrote during Problem 1 should still work. If you're feeling up to it, you can try to implement an alternative way of selection, for instance tournament selection (see https://en.wikipedia.org/wiki/Tournament_selection for a description). 
+Optional! The selection code you wrote during Problem 1 should still work. If you're up for it, you can try to implement an alternative way of selection, for instance tournament selection (see https://en.wikipedia.org/wiki/Tournament_selection for a description). 
 
 ### Recombination
 Now here comes the tricky bit. We can't use the crossover code from Problem 1, because the offspring produced is not guaranteed to encode valid solutions. For instance, consider the two routes 1-2-3-4-5-1 and 5-4-3-2-1-5. A simple one-point crossover after the third integer would produce the offspring 1-2-3-2-1-5, which is not a valid route.
 
 1. How can we make sure that the crossover operation produces valid routes? Try to figure it out yourself. If you want some hints, Google is your friend.
-2. Implement crossover in the IntegerListIndividualRecombinator class
-3. Run TspGeneticAlgorithmStarter again! Play a bit with the CROSSOVER_RATE parameter.
+2. Implement crossover in the IntegerListIndividualRecombinator class.
+3. Change the CROSSOVER_RATE parameter to something different than 0.
+4. Run TspGeneticAlgorithmStarter again! Play a bit with the CROSSOVER_RATE parameter.
 
 ### Mutation
 Mutation has the same constraint as recombination, in that the result has to be a valid route. One way of ensuring that we end up with a valid route is to let two cities swap places in the route.
 
 1. Implement mutation in the IntegerListIndividualMutator class
-2. Run TspGeneticAlgorithmStarter again, and play with the MUTATION_RATE parameter.
+2. Change the MUTATION_RATE parameter to something different than 0.
+3. Run TspGeneticAlgorithmStarter again, and play with the MUTATION_RATE parameter.
 
 ### Elitism
-Should still work if you implemented it in the first problem. :)
-
-If not, go ahead and implement it now!
+Should still work if you implemented it in the first problem. If not, go ahead and implement it now!
 
 ### Play with it
 The basic genetic algorithm is working. Try playing with the parameters, and see if you can come up with the shortest route for the dataset. There are three more datasets to play with if you want a challenge. The optimal (rounded) solutions for them are known, and are as follows:
@@ -142,7 +142,7 @@ The basic genetic algorithm is working. Try playing with the parameters, and see
 Created by Magnus Westergaard.
 
 
-2D car simulation inspired by http://rednuht.org/genetic_cars_2/.
+2D car simulation inspired by http://www.boxcar2d.com.
 
 TSP datasets derived from datasets available at from http://www.math.uwaterloo.ca/tsp/world/countries.html.
 
