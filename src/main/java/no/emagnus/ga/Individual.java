@@ -26,6 +26,10 @@ public class Individual {
         return genotype;
     }
 
+    public Individual copy() {
+        return new Individual(genotype);
+    }
+
     @Override
     public String toString() {
         return genotype.toString();

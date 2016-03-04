@@ -11,7 +11,6 @@ import java.util.Random;
 public class GeneticAlgorithm {
 
     private final RunConfig config;
-
     private Random random = new Random();
 
     public GeneticAlgorithm(RunConfig config) {
@@ -42,11 +41,10 @@ public class GeneticAlgorithm {
                 newGen.addAll(children);
             }
 
-            elitism(newGen);
+            elitistSelection(population, newGen);
 
             population = newGen;
         }
-        System.out.println("Done!");
 
         if (config.visualizeStats) {
             new StatisticsVisualizer().visualize(statistics);
@@ -64,30 +62,31 @@ public class GeneticAlgorithm {
         return population;
     }
 
-    private List<Individual> combine(Individual parent1, Individual parent2) {
-        // TODO: COMBINE CODE HERE
-        Individual child1 = new Individual(parent1.getGenotype());
-        Individual child2 = new Individual(parent2.getGenotype());
-        return Arrays.asList(child1, child2);
-    }
-
-    private Individual selectIndividual(List<Individual> population) {
-        // TODO: SELECTION CODE HERE
-        int randomIndex = random.nextInt(population.size());
-
-        return population.get(randomIndex);
-    }
-
     private void evaluateFitness(List<Individual> population) {
-        // TODO: FITNESS EVALUATION HERE
         config.fitnessEvaluator.evaluateFitness(population);
     }
 
-    private void mutate(List<Individual> individuals) {
-        // TODO: MUTATION CODE HERE
+    private Individual selectIndividual(List<Individual> population) {
+        return config.selector.select(population);
     }
 
-    private void elitism(List<Individual> population) {
+    private List<Individual> combine(Individual parent1, Individual parent2) {
+        if (random.nextDouble() < config.CROSSOVER_RATE) {
+            return config.combiner.crossover(parent1, parent2);
+        } else {
+            return Arrays.asList(parent1.copy(), parent2.copy());
+        }
+    }
+
+    private void mutate(List<Individual> individuals) {
+        for (Individual individual : individuals) {
+            if (random.nextDouble() < config.MUTATION_RATE) {
+                config.mutator.mutate(individual);
+            }
+        }
+    }
+
+    private void elitistSelection(List<Individual> population, List<Individual> newGen) {
         // TODO: ELITISM CODE HERE
     }
 }

@@ -1,4 +1,4 @@
-package no.emagnus.driving;
+package no.emagnus.driving.simulation;
 
 import no.emagnus.ga.Individual;
 import no.emagnus.rendering.RenderableBody;
@@ -16,7 +16,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class CarGenerator {
+public class CarFactory {
 
     private static final long CATEGORY = 123456754321L;
     private static long FILTER_CATEGORY = 1L;

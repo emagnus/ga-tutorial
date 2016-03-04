@@ -1,4 +1,4 @@
-package no.emagnus.driving;
+package no.emagnus.driving.simulation;
 
 import no.emagnus.rendering.RenderableBody;
 import org.dyn4j.dynamics.BodyFixture;

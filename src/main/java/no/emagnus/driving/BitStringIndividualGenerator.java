@@ -19,10 +19,7 @@ public class BitStringIndividualGenerator implements IndividualGenerator {
 
         // TODO Implement a proper generator
         int[] genotype = new int[genotypeSize];
-        for (int i = 0; i < genotypeSize; i++) {
-            genotype[i] = random.nextInt(2);
-        }
-        //sb.append("111011100110011");
+        genotype[2] = random.nextInt(2);
 
         return new Individual(genotype);
     }
