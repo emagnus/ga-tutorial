@@ -30,7 +30,7 @@ public class GeneticAlgorithm {
             statistics.recordMaxAndAvg(gen, population);
 
             List<Individual> newGen = new ArrayList<>();
-            while (newGen.size() < config.POPULATION_SIZE) {
+            while (newGen.size() < config.POPULATION_SIZE - config.ELITISM) {
                 Individual parent1 = selectIndividual(population);
                 Individual parent2 = selectIndividual(population);
                 List<Individual> children = combine(parent1, parent2);

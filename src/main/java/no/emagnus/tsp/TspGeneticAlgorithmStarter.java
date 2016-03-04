@@ -16,12 +16,14 @@ public class TspGeneticAlgorithmStarter {
         RunConfig config = new RunConfig();
         config.POPULATION_SIZE = 10;
         config.NUMBER_OF_GENERATIONS = 3;
-        config.MUTATION_RATE = 0;
         config.CROSSOVER_RATE = 0;
+        config.MUTATION_RATE = 0;
+        config.ELITISM = 0;
         config.visualizeStats = true;
+        config.visualizeSolutions = true;
 
         config.individualGenerator = new IntegerListIndividualGenerator(dataset.size());
-        config.fitnessEvaluator = new TspFitnessEvaluator(true, dataset);
+        config.fitnessEvaluator = new TspFitnessEvaluator(config.visualizeSolutions, dataset);
         config.selector = new FitnessProportionateSelector();
         config.recombinator = new IntegerListIndividualRecombinator();
         config.mutator = new IntegerListIndividualMutator();

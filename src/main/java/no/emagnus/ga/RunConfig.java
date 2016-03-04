@@ -15,4 +15,5 @@ public class RunConfig {
     public Mutator mutator;
 
     public boolean visualizeStats;
+    public boolean visualizeSolutions;
 }
