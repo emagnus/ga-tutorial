@@ -51,9 +51,7 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
         List<List<TspDataPoint>> routes = new ArrayList<>();
         for (Individual individual : population) {
             List<TspDataPoint> route =  createRouteFromGenotype(individual.getGenotype());
-            double distance = calculateRouteDistance(route);
-            individual.setFitness(-distance); // the algorithm is maximizing fitness
-
+            // TODO Calculate the fitness of the route and assign it the the individual
             routes.add(route);
         }
 
@@ -65,9 +63,11 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
         for (int idx : genotype) {
             route.add(cities.get(idx));
         }
+        route.add(cities.get(0));
         return route;
     }
 
+    /*
     private double calculateRouteDistance(List<TspDataPoint> route) {
         double distance = 0;
         double previousX = route.get(0).x;
@@ -79,7 +79,7 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
             distance += Math.sqrt(Math.pow(Math.abs(x-previousX), 2) + Math.pow(Math.abs(y - previousY), 2));
         }
         return distance;
-    }
+    }*/
 
     private void initJFrame() {
         jFrame = new JFrame("TSP!");

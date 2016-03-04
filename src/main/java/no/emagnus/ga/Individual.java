@@ -26,6 +26,10 @@ public class Individual {
         return genotype;
     }
 
+    public void setGenotype(int[] genotype) {
+        this.genotype = genotype;
+    }
+
     public Individual copy() {
         return new Individual(genotype);
     }
