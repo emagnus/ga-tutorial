@@ -8,8 +8,8 @@ public class RunConfig {
     public double CROSSOVER_RATE = 0;
     public int ELITISM = 0;
 
-    public FitnessEvaluator fitnessEvaluator;
     public IndividualGenerator individualGenerator;
+    public FitnessEvaluator fitnessEvaluator;
     public Selector selector;
     public Recombinator combiner;
     public Mutator mutator;

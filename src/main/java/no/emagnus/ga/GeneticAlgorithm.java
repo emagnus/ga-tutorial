@@ -86,6 +86,6 @@ public class GeneticAlgorithm {
     }
 
     private void elitistSelection(List<Individual> population, List<Individual> newGen) {
-        // TODO: ELITISM CODE HERE
+        // TODO: Elitism!
     }
 }
