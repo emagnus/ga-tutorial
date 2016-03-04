@@ -118,19 +118,26 @@ public class CarGenerator {
         private Vector2 gPoint;
         private Vector2 hPoint;
 
-        public CarBlueprint(String genotype) {
-            frontWheelRadius = 0.3 + 0.1 * Integer.parseInt(genotype.substring(0, 3), 2);
-            backWheelRadius = 0.3 + 0.1 * Integer.parseInt(genotype.substring(3, 6), 2);
-            bodyDensity = 0.5 + 0.08 * Integer.parseInt(genotype.substring(6, 10), 2);
+        public CarBlueprint(int[] genotype) {
+            StringBuilder sb = new StringBuilder(genotype.length);
+            for (int i : genotype) {
+                sb.append(i);
+            }
 
-            aDistance = 0.3 + 0.1 * Integer.parseInt(genotype.substring(10, 14), 2);
-            bDistance = 0.25 + 0.1 * Integer.parseInt(genotype.substring(14, 18), 2);
-            cDistance = 0.2 + 0.1 * Integer.parseInt(genotype.substring(18, 22), 2);
-            dDistance = 0.25 + 0.1 * Integer.parseInt(genotype.substring(22, 26), 2);
-            eDistance = 0.25 + 0.1 * Integer.parseInt(genotype.substring(26, 30), 2);
-            fDistance = 0.3 + 0.1 * Integer.parseInt(genotype.substring(30, 34), 2);
-            gDistance = 0.2 + 0.1 * Integer.parseInt(genotype.substring(34, 38), 2);
-            hDistance = 0.2 + 0.1 * Integer.parseInt(genotype.substring(38, 42), 2);
+            String genotypeString = sb.toString();
+
+            frontWheelRadius = 0.3 + 0.1 * Integer.parseInt(genotypeString.substring(0, 3), 2);
+            backWheelRadius = 0.3 + 0.1 * Integer.parseInt(genotypeString.substring(3, 6), 2);
+            bodyDensity = 0.5 + 0.08 * Integer.parseInt(genotypeString.substring(6, 10), 2);
+
+            aDistance = 0.3 + 0.1 * Integer.parseInt(genotypeString.substring(10, 14), 2);
+            bDistance = 0.25 + 0.1 * Integer.parseInt(genotypeString.substring(14, 18), 2);
+            cDistance = 0.2 + 0.1 * Integer.parseInt(genotypeString.substring(18, 22), 2);
+            dDistance = 0.25 + 0.1 * Integer.parseInt(genotypeString.substring(22, 26), 2);
+            eDistance = 0.25 + 0.1 * Integer.parseInt(genotypeString.substring(26, 30), 2);
+            fDistance = 0.3 + 0.1 * Integer.parseInt(genotypeString.substring(30, 34), 2);
+            gDistance = 0.2 + 0.1 * Integer.parseInt(genotypeString.substring(34, 38), 2);
+            hDistance = 0.2 + 0.1 * Integer.parseInt(genotypeString.substring(38, 42), 2);
 
             aPoint = new Vector2(aDistance, 0.0);
             bPoint = new Vector2(bDistance * Math.cos(Math.PI/5), bDistance * Math.sin(Math.PI/5));

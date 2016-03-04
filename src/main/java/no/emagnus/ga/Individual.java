@@ -6,11 +6,11 @@ public class Individual {
 
     private long id = individualId++;
 
-    private String genotype;
+    private int[] genotype;
 
     private double fitness;
 
-    public Individual(String genotype) {
+    public Individual(int[] genotype) {
         this.genotype = genotype;
     }
 
@@ -22,7 +22,7 @@ public class Individual {
         return fitness;
     }
 
-    public String getGenotype() {
+    public int[] getGenotype() {
         return genotype;
     }
 
