@@ -11,6 +11,7 @@ public class Statistics {
     public Statistics(int numberOfGenerations) {
         maxFitness = new double[numberOfGenerations];
         avgFitness = new double[numberOfGenerations];
+        System.out.println("Running " + numberOfGenerations + " generations ...");
     }
 
     public void recordMaxAndAvg(int gen, List<Individual> population) {
@@ -26,6 +27,8 @@ public class Statistics {
 
         maxFitness[gen] = max;
         avgFitness[gen] = acc / population.size();
+
+        System.out.println(String.format("Generation %d\tdone.", gen));
     }
 
     public double[] getMaxFitness() {

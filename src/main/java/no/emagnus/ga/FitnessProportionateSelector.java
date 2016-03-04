@@ -1,15 +1,13 @@
-package no.emagnus.driving;
-
-import no.emagnus.ga.Individual;
-import no.emagnus.ga.Selector;
+package no.emagnus.ga;
 
 import java.util.List;
 import java.util.Random;
 
-public class CarSelector implements Selector {
+public class FitnessProportionateSelector implements Selector {
 
     @Override
     public Individual select(List<Individual> population) {
+        // TODO Well this sure isn't fitness proportionate selection ...
         int randomIndex = new Random().nextInt(population.size());
         return population.get(randomIndex);
     }

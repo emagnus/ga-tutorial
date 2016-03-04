@@ -1,4 +1,4 @@
-package no.emagnus.driving;
+package no.emagnus.driving.simulation;
 
 import no.emagnus.driving.simulation.CarFactory;
 import no.emagnus.driving.simulation.TerrainGenerator;
@@ -23,16 +23,15 @@ import java.util.List;
 
 public class CarFitnessEvaluator implements FitnessEvaluator {
 
+    private boolean visualize;
+    private static final double SCALE = 45.0;
+    private static final double NANO_TO_BASE = 1.0e9;
     private JFrame jFrame;
     private Canvas canvas;
-    private static final double SCALE = 45.0;
-    public static final double NANO_TO_BASE = 1.0e9;
 
     private World world = new World();
-
     private static final int KILL_SIM_THRESHOLD = 5;
     private static final double TIME_STEP = 1.0 / 30.0;
-    private boolean visualize;
 
     public CarFitnessEvaluator(boolean visualize) {
         this.visualize = visualize;
@@ -45,12 +44,13 @@ public class CarFitnessEvaluator implements FitnessEvaluator {
     public void evaluateFitness(Collection<Individual> population) {
         initializeSimulation(41);
 
+        // generating cars from genotypes
         List<RenderableBody> cars = generateCars(population);
 
         // running simulation of cars driving
         runSimulation(cars);
 
-        // TODO assign fitness to the individuals according to their performance
+        // assigning fitness to the individuals based on the cars' performance
         assignFitnessToPopulation(cars);
 
         // cleaning up after running the simulation
@@ -59,23 +59,9 @@ public class CarFitnessEvaluator implements FitnessEvaluator {
 
     private void assignFitnessToPopulation(List<RenderableBody> cars) {
         for (RenderableBody car : cars) {
-            double fitness = car.getDistanceTravelled();
-            car.getIndividual().setFitness(fitness);
+            // TODO Fix the fitness assignment
+            car.getIndividual().setFitness(0);
         }
-    }
-
-
-    private void initializeSimulation(int seed) {
-        new TerrainGenerator(seed).generateTerrain(world);
-    }
-
-    private List<RenderableBody> generateCars(Collection<Individual> population) {
-        List<RenderableBody> cars = new ArrayList<>();
-        for (Individual individual : population) {
-            cars.add(new CarFactory().generateCar(individual, world, new Vector2(-5, -1)));
-        }
-
-        return cars;
     }
 
     private void runSimulation(Collection<RenderableBody> cars) {
@@ -124,6 +110,19 @@ public class CarFitnessEvaluator implements FitnessEvaluator {
 
             System.out.println(String.format("%.3f seconds simulated in %.1f seconds, max progress: %.3f", timeSimulated, millisSpent / 1000.0, maxDistance));
         }
+    }
+
+    private void initializeSimulation(int seed) {
+        new TerrainGenerator(seed).generateTerrain(world);
+    }
+
+    private List<RenderableBody> generateCars(Collection<Individual> population) {
+        List<RenderableBody> cars = new ArrayList<>();
+        for (Individual individual : population) {
+            cars.add(new CarFactory().generateCar(individual, world, new Vector2(-5, -1)));
+        }
+
+        return cars;
     }
 
     private void cleanUpSimulation() {

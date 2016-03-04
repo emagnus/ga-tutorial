@@ -21,10 +21,8 @@ public class GeneticAlgorithm {
         // statistics to visualize
         Statistics statistics = new Statistics(config.NUMBER_OF_GENERATIONS);
 
-        System.out.println("Initializing population ...");
         List<Individual> population = initPopulation(config.individualGenerator);
 
-        System.out.println("Running " + config.NUMBER_OF_GENERATIONS + " generations ...");
         for (int gen = 0; gen < config.NUMBER_OF_GENERATIONS; gen++) {
             evaluateFitness(population);
 
@@ -54,6 +52,7 @@ public class GeneticAlgorithm {
     }
 
     private List<Individual> initPopulation(IndividualGenerator individualGenerator) {
+        System.out.println("Initializing population ...");
         List<Individual> population = new ArrayList<>();
         for (int i = 0; i < config.POPULATION_SIZE; i++) {
             population.add(individualGenerator.generateIndividual());
