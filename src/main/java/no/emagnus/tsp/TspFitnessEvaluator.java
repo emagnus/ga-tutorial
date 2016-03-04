@@ -52,6 +52,7 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
         for (Individual individual : population) {
             List<TspDataPoint> route =  createRouteFromGenotype(individual.getGenotype());
             // TODO Calculate the fitness of the route and assign it the the individual
+            calculateRouteDistance(route);
             routes.add(route);
         }
 
@@ -67,19 +68,9 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
         return route;
     }
 
-    /*
     private double calculateRouteDistance(List<TspDataPoint> route) {
-        double distance = 0;
-        double previousX = route.get(0).x;
-        double previousY = route.get(0).y;
-        for (int i = 1; i < route.size(); i++) {
-            double x = route.get(i).x;
-            double y = route.get(i).y;
-
-            distance += Math.sqrt(Math.pow(Math.abs(x-previousX), 2) + Math.pow(Math.abs(y - previousY), 2));
-        }
-        return distance;
-    }*/
+        return 10000;
+    }
 
     private void initJFrame() {
         jFrame = new JFrame("TSP!");
@@ -112,9 +103,6 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
     }
 
     private void render(Graphics2D g, List<Point2D> route) {
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-
         g.setColor(Color.BLACK);
         for (Point2D point : route) {
             g.fillRect((int) point.getX() - 2, (int) point.getY() - 2, 4, 4);
@@ -134,6 +122,12 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
 
     private void updateCanvas(List<TspDataPoint> route) {
         Graphics2D g = (Graphics2D)this.canvas.getBufferStrategy().getDrawGraphics();
+
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+        g.setColor(Color.BLACK);
+        g.drawString(String.format("Total distance: %.3f", calculateRouteDistance(route)), 20, 20);
 
         List<Point2D> normalizedRoute = normalizeToWindowSize(route);
 
@@ -164,9 +158,5 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
         }
 
         return normalized;
-    }
-
-    public static void main(String[] args) {
-        new TspFitnessEvaluator(true, TspData.getSmallDataset()).evaluateFitness(Collections.<Individual>emptyList());
     }
 }

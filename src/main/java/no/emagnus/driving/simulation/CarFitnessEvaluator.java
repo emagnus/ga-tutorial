@@ -160,9 +160,6 @@ public class CarFitnessEvaluator implements FitnessEvaluator {
     }
 
     private void render(Graphics2D g) {
-        g.setColor(Color.WHITE);
-        g.fillRect(-400, -300, 800, 600);
-
         double leaderX = -100;
         double leaderY = -1;
         for (Body car : world.getBodies()) {
@@ -181,6 +178,19 @@ public class CarFitnessEvaluator implements FitnessEvaluator {
 
     private void updateCanvas() {
         Graphics2D g = (Graphics2D)this.canvas.getBufferStrategy().getDrawGraphics();
+
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 800, 600);
+
+        double leaderX = -100;
+        for (Body car : world.getBodies()) {
+            if (car.isDynamic() && car.getWorldCenter().x > leaderX) {
+                leaderX = car.getWorldCenter().x;
+            }
+        }
+
+        g.setColor(Color.BLACK);
+        g.drawString(String.format("Distance covered by leader: %.3f", leaderX), 20, 20);
 
         AffineTransform yFlip = AffineTransform.getScaleInstance(1, -1);
         AffineTransform move = AffineTransform.getTranslateInstance(400, -300);
