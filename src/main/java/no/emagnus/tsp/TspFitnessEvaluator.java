@@ -3,6 +3,7 @@ package no.emagnus.tsp;
 import no.emagnus.ga.FitnessEvaluator;
 import no.emagnus.ga.Individual;
 import no.emagnus.tsp.data.TspData;
+import no.emagnus.tsp.data.TspDataPoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +11,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TspFitnessEvaluator implements FitnessEvaluator {
 
@@ -22,9 +21,11 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
     private static final int CANVAS_SIZE = 800;
 
     private boolean visualize;
+    private List<TspDataPoint> cities;
 
-    public TspFitnessEvaluator(boolean visualize) {
+    public TspFitnessEvaluator(boolean visualize, List<TspDataPoint> cities) {
         this.visualize = visualize;
+        this.cities = cities;
         if (visualize) {
             initJFrame();
         }
@@ -32,31 +33,39 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
 
     @Override
     public void evaluateFitness(Collection<Individual> population) {
-        List<TspDataPoint> route = TspData.getSmallDataset();
+        List<List<TspDataPoint>> routes = assignFitnessToRoutes(population);
 
-        Map<Individual, List<TspDataPoint>> routes = new HashMap<>();
-
-        assignFitnessToRoutes(population, routes);
-
-        for (int i = 0; i < 10; i++) {
-            Collections.shuffle(route);
-            if (visualize) {
+        if (visualize) {
+            for (List<TspDataPoint> route : routes) {
                 updateCanvas(route);
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    private void assignFitnessToRoutes(Collection<Individual> population, Map<Individual, List<TspDataPoint>> routes) {
+    private List<List<TspDataPoint>> assignFitnessToRoutes(Collection<Individual> population) {
+        List<List<TspDataPoint>> routes = new ArrayList<>();
         for (Individual individual : population) {
-            List<TspDataPoint> route = routes.get(individual);
+            List<TspDataPoint> route =  createRouteFromGenotype(individual.getGenotype());
             double distance = calculateRouteDistance(route);
             individual.setFitness(-distance); // the algorithm is maximizing fitness
+
+            routes.add(route);
         }
+
+        return routes;
+    }
+
+    private List<TspDataPoint> createRouteFromGenotype(int[] genotype) {
+        List<TspDataPoint> route = new ArrayList<>();
+        for (int idx : genotype) {
+            route.add(cities.get(idx));
+        }
+        return route;
     }
 
     private double calculateRouteDistance(List<TspDataPoint> route) {
@@ -103,17 +112,14 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
     }
 
     private void render(Graphics2D g, List<Point2D> route) {
-        // lets draw over everything with a white background
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
         g.setColor(Color.BLACK);
         for (Point2D point : route) {
-            //g.fillRect(CANVAS_SIZE - (int) point.getY() - 2, CANVAS_SIZE - (int) point.getX() - 2, 4, 4);
             g.fillRect((int) point.getX() - 2, (int) point.getY() - 2, 4, 4);
         }
 
-        /*
         g.setColor(Color.BLUE);
         Point2D prevPoint = route.get(0);
         for (int i = 1; i < route.size(); i++) {
@@ -124,32 +130,17 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
 
         Point2D lastPoint = route.get(0);
         g.drawLine((int)prevPoint.getX(), (int)prevPoint.getY(), (int)lastPoint.getX(), (int)lastPoint.getY());
-        */
     }
 
     private void updateCanvas(List<TspDataPoint> route) {
-        // get the graphics object to render to
         Graphics2D g = (Graphics2D)this.canvas.getBufferStrategy().getDrawGraphics();
 
-        // before we render everything im going to flip the y axis and move the
-        // origin to the center (instead of it being in the top left corner)
-        //AffineTransform yFlip = AffineTransform.getScaleInstance(1, 1);
-        //AffineTransform move = AffineTransform.getTranslateInstance(0, -CANVAS_SIZE);
-        //g.transform(yFlip);
-        //g.transform(move);
-
-        // now (0, 0) is in the center of the screen with the positive x axis
-        // pointing right and the positive y axis pointing up
         List<Point2D> normalizedRoute = normalizeToWindowSize(route);
 
-        // render anything about the Example (will render the World objects)
         this.render(g, normalizedRoute);
 
-        // dispose of the graphics object
         g.dispose();
 
-        // Sync the display on some systems.
-        // (on Linux, this fixes event queue problems)
         Toolkit.getDefaultToolkit().sync();
     }
 
@@ -176,6 +167,6 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
     }
 
     public static void main(String[] args) {
-        new TspFitnessEvaluator(true).evaluateFitness(Collections.<Individual>emptyList());
+        new TspFitnessEvaluator(true, TspData.getSmallDataset()).evaluateFitness(Collections.<Individual>emptyList());
     }
 }

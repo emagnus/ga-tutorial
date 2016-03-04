@@ -71,7 +71,7 @@ public class GeneticAlgorithm {
 
     private List<Individual> combine(Individual parent1, Individual parent2) {
         if (random.nextDouble() < config.CROSSOVER_RATE) {
-            return config.combiner.crossover(parent1, parent2);
+            return config.recombinator.crossover(parent1, parent2);
         } else {
             return Arrays.asList(parent1.copy(), parent2.copy());
         }

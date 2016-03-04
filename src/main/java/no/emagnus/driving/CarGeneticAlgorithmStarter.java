@@ -18,7 +18,7 @@ public class CarGeneticAlgorithmStarter {
         config.individualGenerator = new BitStringIndividualGenerator(42);
         config.fitnessEvaluator = new CarFitnessEvaluator(true);
         config.selector = new FitnessProportionateSelector();
-        config.combiner = new BitStringIndividualRecombinator();
+        config.recombinator = new BitStringIndividualRecombinator();
         config.mutator = new BitStringIndividualMutator();
 
         new GeneticAlgorithm(config).run();

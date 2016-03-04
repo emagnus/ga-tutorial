@@ -11,7 +11,7 @@ public class RunConfig {
     public IndividualGenerator individualGenerator;
     public FitnessEvaluator fitnessEvaluator;
     public Selector selector;
-    public Recombinator combiner;
+    public Recombinator recombinator;
     public Mutator mutator;
 
     public boolean visualizeStats;

@@ -1,4 +1,4 @@
-package no.emagnus.tsp;
+package no.emagnus.tsp.data;
 
 public class TspDataPoint {
 

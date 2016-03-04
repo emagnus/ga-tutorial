@@ -1,7 +1,5 @@
 package no.emagnus.tsp.data;
 
-import no.emagnus.tsp.TspDataPoint;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
