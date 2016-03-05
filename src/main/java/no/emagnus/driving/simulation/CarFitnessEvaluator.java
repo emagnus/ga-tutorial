@@ -1,7 +1,5 @@
 package no.emagnus.driving.simulation;
 
-import no.emagnus.driving.simulation.CarFactory;
-import no.emagnus.driving.simulation.TerrainGenerator;
 import no.emagnus.rendering.RenderableBody;
 import no.emagnus.ga.FitnessEvaluator;
 import no.emagnus.ga.Individual;
