@@ -33,7 +33,7 @@ public class GeneticAlgorithm {
             while (newGen.size() < config.POPULATION_SIZE - config.ELITISM) {
                 Individual parent1 = selectIndividual(population);
                 Individual parent2 = selectIndividual(population);
-                List<Individual> children = combine(parent1, parent2);
+                List<Individual> children = recombinate(parent1, parent2);
 
                 mutate(children);
                 newGen.addAll(children);
@@ -69,7 +69,7 @@ public class GeneticAlgorithm {
         return config.selector.select(population);
     }
 
-    private List<Individual> combine(Individual parent1, Individual parent2) {
+    private List<Individual> recombinate(Individual parent1, Individual parent2) {
         if (random.nextDouble() < config.CROSSOVER_RATE) {
             return config.recombinator.crossover(parent1, parent2);
         } else {
