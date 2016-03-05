@@ -22,9 +22,12 @@ public class TerrainGenerator {
         Random random = new Random(seed);
         double stepSize = 2;
         double previousY = 0;
-        int maxSize = 300;
+        int maxSize = 400;
         for (int i = -4; i < maxSize; i ++) {
-            double nextY = previousY +  (i * (random.nextDouble() * 4 - 2.0) * (1.9/maxSize));
+            double nextY = previousY +  (i * (random.nextDouble() * 4 - 1.5) * (6.5/maxSize));
+            if (i % 20 == 0) {
+                nextY = previousY + (random.nextDouble() * 5 - 2.5);
+            }
             Segment segment = new Segment(new Vector2(i*stepSize, previousY), new Vector2(stepSize + i*stepSize, nextY));
             RenderableBody edge = new RenderableBody(Color.BLACK);
             BodyFixture segmentFixture = new BodyFixture(segment);
