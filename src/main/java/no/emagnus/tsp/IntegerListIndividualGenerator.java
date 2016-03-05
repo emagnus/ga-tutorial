@@ -17,25 +17,11 @@ public class IntegerListIndividualGenerator implements IndividualGenerator {
     public Individual generateIndividual() {
         int[] genotype = new int[genotypeSize];
 
+        // TODO Implement a proper generator
         for (int i = 0; i < genotypeSize; i++) {
             genotype[i] = i;
         }
 
-        shuffleArray(genotype);
-
         return new Individual(genotype);
-    }
-
-    private void shuffleArray(int[] array) {
-        int index;
-        Random random = new Random();
-        for (int i = array.length - 1; i > 0; i--) {
-            index = random.nextInt(i + 1);
-            if (index != i) {
-                array[index] ^= array[i];
-                array[i] ^= array[index];
-                array[index] ^= array[i];
-            }
-        }
     }
 }

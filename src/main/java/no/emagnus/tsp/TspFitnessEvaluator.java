@@ -18,7 +18,7 @@ public class TspFitnessEvaluator implements FitnessEvaluator {
     private JFrame jFrame;
     private Canvas canvas;
 
-    private static final int CANVAS_SIZE = 800;
+    private static final int CANVAS_SIZE = 700;
 
     private boolean visualize;
     private List<TspDataPoint> cities;
