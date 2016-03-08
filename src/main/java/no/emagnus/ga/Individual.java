@@ -31,7 +31,7 @@ public class Individual {
     }
 
     public Individual copy() {
-        return new Individual(genotype);
+        return new Individual(genotype.clone());
     }
 
     @Override

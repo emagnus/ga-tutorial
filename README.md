@@ -141,6 +141,12 @@ The basic genetic algorithm is working. Try playing with the parameters, and see
 
 Created by Magnus Westergaard.
 
+TODO:
+- Substitute dyn4j with jbox2d for performance
+- Change recombination so it's not depending on an even numbered population size
+- Handcraft terrain for the cars
+- Unit tests
+
 
 2D car simulation inspired by http://www.boxcar2d.com.
 
