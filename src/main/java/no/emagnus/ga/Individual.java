@@ -2,10 +2,6 @@ package no.emagnus.ga;
 
 public class Individual {
 
-    private static long individualId = 0;
-
-    private long id = individualId++;
-
     private int[] genotype;
 
     private double fitness;
@@ -26,10 +22,6 @@ public class Individual {
         return genotype;
     }
 
-    public void setGenotype(int[] genotype) {
-        this.genotype = genotype;
-    }
-
     public Individual copy() {
         return new Individual(genotype.clone());
     }
@@ -37,21 +29,5 @@ public class Individual {
     @Override
     public String toString() {
         return genotype.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Individual that = (Individual) o;
-
-        return id == that.id;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
     }
 }

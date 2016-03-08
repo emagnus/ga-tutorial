@@ -16,7 +16,6 @@ The GeneticAlgorithm class contains the core of the genetic algorithm. It's mean
 There are two starting points for running the genetic algorithm - one for each of the two problems. These starting points are where you can adjust parameters to configure the genetic algorithm.
 
 ## Problem 1: Finding the best car for traversing difficult terrain
-
 Let's get started! 
 
 The objective is to find the optimal shape, size and weight of a car driving through difficult terrain. We define the optimal combination to be the one that lets the car travel the furthest before getting stuck or running out of time.
@@ -146,6 +145,8 @@ TODO:
 - Change recombination so it's not depending on an even numbered population size
 - Handcraft terrain for the cars
 - Unit tests
+- Parse .tsp files
+- Cooler cars (a third wheel perhaps)
 
 
 2D car simulation inspired by http://www.boxcar2d.com.
